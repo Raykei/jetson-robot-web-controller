@@ -54,7 +54,7 @@ ROOT_URLCONF = 'jetsonrobotwebcontroller.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["jetsonrobotwebcontroller/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
