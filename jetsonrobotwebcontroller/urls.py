@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from jetsonrobotwebcontroller.views import app
+from jetsonrobotwebcontroller.views import app, webcam_feed
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', app),
+    path('webcam', webcam_feed, name = 'webcam_feed'),
 ]
