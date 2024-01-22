@@ -20,5 +20,5 @@ from jetsonrobotwebcontroller.views import app
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('app', app),
+    path('', app),
 ]

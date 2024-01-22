@@ -1,4 +1,5 @@
 from django.shortcuts import render
 
 def app(request):
-    return render(request, "main.html", {})
+    context = {}
+    return render(request, "main.html", context)
