@@ -1,43 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+html {
+    font-size: 62.5%;
+}
 body {
     padding: 0;
     margin: 0;
-    background-color: #d6d1cb;
-    cursor: crosshair;
+    background-color: #ffffff;
+    font-family: 'Ubuntu Mono';
+    height: 100%; 
+    width: 100%;
+}
+
+.appname{
+    font-family: 'Uncial Antiqua';
+    font-size: 2.4em;
+    margin-left: 1.9rem;
+    border: #000000 1px solid;
+    margin: auto;
+
+}
+.apptitle{
+    font-size: 2.4em;
+    border: #000000 1px solid;
+    margin: auto;
+}
+.appversion{
+    font-size: 2.4em;
+    border: #000000 1px solid;
+    margin-right: 3.0rem;
+    margin: auto;
+}
+.wrapper{
+    padding: 0;
+    margin: 0;
     display: flex;
-    flex-direction: column;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-
-.header {
-    position: fixed;
-    width: 100%;
-    height: 80px;
-    padding-right: 5px;
-    padding-left: 5px;
-}
-
-.header-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #ff0000;
-}
-
-.header-bar {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    height: 5.0em;
+    border: #000000 1px solid;
 }
-
-.footer {
-    padding: 40px 0 32px;
-    color: #fff;
-    text-align: center;
-    background-color: #000;
+.header{
+    background-color: #ffffff;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 5.0em;
+    border: #000000 1px solid;
 }
