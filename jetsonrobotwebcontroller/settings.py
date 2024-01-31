@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-g7+$5n#&*ap01vhq4s1u7^c88jbbj5br7^eodo7p$o)q7y$f2e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -117,7 +117,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = ["C:/Users/Usuario/Desktop/django_projects/jetson-robot-web-controller/jetson-robot-web-controller/jetsonrobotwebcontroller/static"]
+
+import os
+ROOT_PATH = os.path.dirname(__file__)
+STATICFILES_DIRS = [os.path.join(ROOT_PATH, 'static')]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
