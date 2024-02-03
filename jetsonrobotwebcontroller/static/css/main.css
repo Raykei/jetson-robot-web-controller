@@ -114,16 +114,16 @@ body {
 
 .transmission-name{
     font-size: 3.2rem;
-    border: #000 1px dotted;
+    /* border: #000 1px dotted; */
     text-align: center;
 }
 .camera-container{
     width: 128rem;
     height: 72rem;
-    border: #000 1px dotted;
+    /* border: #000 1px dotted; */
 }
 .camera-container-div{
-    border: #000 1px dotted;
+    /* border: #000 1px dotted; */
     display: flex;
     justify-content: center;
 }

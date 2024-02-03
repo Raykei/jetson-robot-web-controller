@@ -10,7 +10,8 @@ class webcam(object):
         if not self.video.isOpened():
             print("Cannot open camera")
             exit()
-        
+        else:
+            print("La camara se abrió correctamente")
     # Is called when an object is about to be destroyed
     def __del__(self):
         self.video.release()    
