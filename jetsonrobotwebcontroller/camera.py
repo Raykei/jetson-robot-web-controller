@@ -27,4 +27,4 @@ class webcam(object):
         encodeSuccess, jpg = cv2.imencode('.jpg', frame)
         if not encodeSuccess:
             print("Cannot encode to JPG")
-        return jpg.tobytes()
+        return jpg.tobytes(), frame
