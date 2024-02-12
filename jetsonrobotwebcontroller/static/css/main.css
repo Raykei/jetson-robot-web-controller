@@ -120,7 +120,7 @@ body {
 .camera-container{
     width: 128rem;
     height: 72rem;
-    /* border: #000 1px dotted; */
+    border: 5px ridge #8dfff2;
 }
 .camera-container-div{
     /* border: #000 1px dotted; */
