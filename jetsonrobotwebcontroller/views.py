@@ -1,6 +1,7 @@
 import cv2
 import time
 import os
+import csv
 from django.shortcuts import render
 from django.http.response import StreamingHttpResponse, HttpResponse, JsonResponse
 from jetsonrobotwebcontroller.camera import webcam
@@ -34,28 +35,54 @@ def transmission(camera):
     global reinicio
     contador_imagenes = 0
 
+    contador_vel = 0
+    contador_pos = 0
+    pos = 1600
+    vel = 0
+
     # Path donde se guardará los frames
     path =r'C:\Users\Usuario\Desktop\django_projects\jetson-robot-web-controller\frames'
 
-
+      
     while True:
-        frame = camera.get_frame()
-        timestr = time.strftime("%H:%M:%S_%d/%m/%Y")
-        #print("CONTADOR OPEN CAM: ", frame[2])
-        if (transmission_active == True) and frame[2] and (frame[2] == 1):
-            #print("JPG type: ", type(frame[0]), " - Frame type: ", type(frame[1]))
-            if contador_imagenes % 30 == 0: # Como la camara es de 30fps, este if es para que guarde solo un frame por segundo
-            
-                name ='frame%d.jpg' % (contador_imagenes // 30)
-                cv2.imwrite(os.path.join(path, name), frame[1])
-                print("Guardando frame:", name, " - Fecha: ", timestr)
+            frame = camera.get_frame()
+            timestr = time.strftime("%H:%M:%S_%d/%m/%Y")
+            #print("CONTADOR OPEN CAM: ", frame[2])
 
-            contador_imagenes += 1
-        # if (transmission_active == False):
-        #     print("TRANSMISION APAGADA (div hidden)")
-        
-        yield (b'--frame\r\n'
-                b'Content-Type: image/jpeg\r\n\r\n' + frame[0] + b'\r\n')
+            # Guardar la posición y velocidad en el archivo CSV
+            vel = contador_vel * 50
+            pos = contador_pos * 200 + 1600
+
+
+            if (transmission_active == True) and frame[2] and (frame[2] == 1):
+                #print("JPG type: ", type(frame[0]), " - Frame type: ", type(frame[1]))
+
+                if contador_imagenes % 30 == 0: # Como la camara es de 30fps, este if es para que guarde solo un frame por segundo
+                    name ='frame%d.jpg' % (contador_imagenes // 30)
+                    cv2.imwrite(os.path.join(path, name), frame[1])
+                    print("Guardando frame:", name, " - Fecha: ", timestr)
+                    print("Frame: ", name, ", Posición: ", pos, "Velocidad: ", vel)
+
+                    # -------------------------------------------------------------------------------------------------------------------
+                    # Archivo CSV donde se guardarán las posiciones y velocidades
+                    archivo_posiciones_csv = r'C:\Users\Usuario\Desktop\django_projects\jetson-robot-web-controller\frames\parametros.csv'
+                    with open(archivo_posiciones_csv, 'a', newline='') as archivo_csv:
+                        # Crear un escritor CSV
+                        escritor_csv = csv.writer(archivo_csv)
+                        escritor_csv.writerow([contador_imagenes//30, pos, vel, timestr])
+
+                        # # Escribir la cabecera del archivo CSV
+                        # escritor_csv.writerow(['Imagen', 'Posicion', 'Velocidad', 'Fecha'])
+                    # -------------------------------------------------------------------------------------------------------------------
+      
+
+
+                contador_imagenes += 1
+            # if (transmission_active == False):
+            #     print("TRANSMISION APAGADA (div hidden)")
+            
+            yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame[0] + b'\r\n')
 
                 
 def webcam_feed(request):
