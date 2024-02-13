@@ -1,7 +1,13 @@
 <div class = "camera-div">
     <p class="transmission-name">Transmision en vivo</p>
-    <button id="startButton">INICIAR TRANSMISION</button>
-    <div class="camera-container-div">
-        <img class="camera-container" src="{% url 'webcam_feed' %}" alt="Car camera livestream">
+
+    <div class="buttons-container">
+        <button id="startButton">INICIAR TRANSMISION</button>
+        <button id="stopButton">DETENER TRANSMISION</button>
     </div>
-    
+        
+    <div id="camera-container-div" class="camera-container-div">
+        <img id="stream-deactivated-container" class="cat-container" src="{% url 'webcam_deactivated' %}" alt="Streamer cat Dennis">
+        <img id="stream-activated-container" class="camera-container" src="{% url 'webcam_feed' %}" alt="Car camera livestream">
+    </div>
+</div> 

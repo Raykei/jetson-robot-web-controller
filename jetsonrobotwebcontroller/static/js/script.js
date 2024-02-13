@@ -1,22 +1,28 @@
-// $(document).ready(function() {
-//     $('#startButton').click(function() {
-//         // Cuando se hace clic en el botón, establecer la variable a True
-//         var start_transmission = true;
-//         console.log('Start transmission:', start_transmission);
-//         // Enviar la variable al servidor Django mediante una solicitud HTTP con jQuery
-//         $.post('C:/Users/Usuario/Desktop/django_projects/jetson-robot-web-controller/jetson-robot-web-controller/jetsonrobotwebcontroller/views.py', { start_transmission: start_transmission })
-//             .done(function(response) {
-//                 console.log('La solicitud fue exitosa');
-//             })
-//             .fail(function(error) {
-//                 console.error('Hubo un error en la solicitud');
-//             });
-//     });
-// });
+
+$(document).ready(function () {
+    $('#startButton').click(function (event) {
+        $("#stream-activated-container").toggle();
+        $("#stream-deactivated-container").toggle();
+        event.preventDefault();
+        // Obtener el estado actual de transmission_active
+        var currentTransmissionActive = window.location.href.includes('transmission_active=true');
+        console.log("Estado de stream:", currentTransmissionActive)
+        // Realizar una solicitud AJAX para cambiar el estado en el servidor
+        $.get('webcam', { transmission_active: !currentTransmissionActive }, function(data) {
+            console.log("Estado de stream cambiado a:", !currentTransmissionActive);
+        });
+        
+        
+    });
+});
 
 $(document).ready(function() {
-    $('#startButton').click(function() {
-        // Cuando se hace clic en el botón, redirigir a la vista de Django con el parámetro en la URL
-        window.location.href = '/?start_transmission=true';
+    $('#stopButton').click(function (event) {
+        $("#stream-deactivated-container").toggle();
+        $("#stream-activated-container").toggle();
+        event.preventDefault();
+        $.get('webcam', { transmission_active: false }, function(data) {
+            console.log("Estado de stream cambiado a: false");
+        });
     });
 });

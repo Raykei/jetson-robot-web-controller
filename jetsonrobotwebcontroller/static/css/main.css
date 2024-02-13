@@ -121,6 +121,8 @@ body {
     width: 128rem;
     height: 72rem;
     border: 5px ridge #8dfff2;
+    display: none; /*Hidden before clicking on start transmission*/
+    background-color: #000;
 }
 .camera-container-div{
     /* border: #000 1px dotted; */
