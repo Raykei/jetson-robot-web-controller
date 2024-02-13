@@ -13,31 +13,38 @@ def app(request):
 
 # Streaming with Motion JPEG tactics
 def transmission(camera):
+    global transmission_active
+    global generator
+    global guardar_img
     contador_imagenes = 0
     # Path donde se guardará los frames
     path =r'C:\Users\Usuario\Desktop\django_projects\jetson-robot-web-controller\frames'
-    
-    while transmission_active:
+    print("transmission_active: ", transmission_active)
+    while True:
         frame = camera.get_frame()
         timestr = time.strftime("%H:%M:%S_%d/%m/%Y")
-        
-        if contador_imagenes % 30 == 0: # Como la camara es de 30fps, este if es para que guarde solo un frame por segundo
-            name ='frame%d.jpg' % (contador_imagenes // 30)
-            cv2.imwrite(os.path.join(path, name), frame[1])
-            print("Guardando frame:", name, " - Fecha: %s", timestr)
-        
-        contador_imagenes += 1
+        if (transmission_active == True) and frame[2]:
+            if contador_imagenes % 30 == 0: # Como la camara es de 30fps, este if es para que guarde solo un frame por segundo
+                name ='frame%d.jpg' % (contador_imagenes // 30)
+                cv2.imwrite(os.path.join(path, name), frame[1])
+                print("Guardando frame:", name, " - Fecha: ", timestr)
+            
+            contador_imagenes += 1
+   
         yield (b'--frame\r\n'
                         b'Content-Type: image/jpeg\r\n\r\n' + frame[0] + b'\r\n')
+        
+        
                 
 def webcam_feed(request):
+    global transmission_active
     transmission_active = request.GET.get('transmission_active', False)
     img_path = r"C:\Users\Usuario\Desktop\django_projects\jetson-robot-web-controller\jetson-robot-web-controller\jetsonrobotwebcontroller\static\img\transmision_desactivada.jpg"
     assert os.path.isfile(img_path)
 
 
     if 'transmission_active' in request.GET:
-        print("Estado de variable: ", transmission_active, " - ", type(transmission_active))
+        print("Estado de variable transmission_active: ", transmission_active, " - ", type(transmission_active))
         if transmission_active == "true":
             print("transmission_active SE CONVIRTIO EN TRUE")
             transmission_active = request.GET.get('transmission_active') == 'true'
@@ -47,9 +54,9 @@ def webcam_feed(request):
 
     print("¿Transmisión activada?:", transmission_active)
 
-    if transmission_active:
-        print("Cargando webcam feed")
-        return StreamingHttpResponse(transmission(webcam()), content_type='multipart/x-mixed-replace; boundary=frame')
+    #if transmission_active:
+    print("Cargando webcam feed")
+    return StreamingHttpResponse(transmission(webcam()), content_type='multipart/x-mixed-replace; boundary=frame')
 
 
  

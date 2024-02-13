@@ -3,6 +3,7 @@ import cv2
 class webcam(object):
     # Is called when an object is created
     def __init__(self):
+        global cameraOpen
         self.video = cv2.VideoCapture(0)
         # self.video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
         # self.video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
@@ -10,6 +11,7 @@ class webcam(object):
             print("No se puede abrir la camara, revisar conexión USB")
             exit()
         else:
+            cameraOpen = True
             print("La camara se abrió correctamente")
     # Is called when an object is about to be destroyed
     def __del__(self):
@@ -21,9 +23,9 @@ class webcam(object):
 
         # if frame is read correctly ret is True
         if not frameReadSucess:
-            print("Can't receive frame (stream ended?).")
+            print("No se pudo leer el frame (stream ended?).")
         # Transform frame to JPEG
         encodeSuccess, jpg = cv2.imencode('.jpg', frame)
         if not encodeSuccess:
-            print("Cannot encode to JPG")
-        return jpg.tobytes(), frame
+            print("No se pudo transformar frame a JPG")
+        return jpg.tobytes(), frame, cameraOpen
