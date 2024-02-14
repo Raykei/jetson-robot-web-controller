@@ -13,7 +13,8 @@ def app(request):
     return render(request, "main.html", context)
 
 def dummy(request):
-    img_path = r"C:\Users\Usuario\Desktop\django_projects\jetson-robot-web-controller\jetson-robot-web-controller\jetsonrobotwebcontroller\static\img\loading.png"
+                            #img_path = r"home/nikobot/projects/django/jetson-robot-web-controller/jetsonrobotwebcontroller/static/img/loading.png"
+    img_path = os.path.join(os.path.dirname(__file__), 'static/img/loading.png')
     with open(img_path, 'rb') as f:
         img_path = f.read()
     return HttpResponse(img_path, content_type="image/jpeg")
@@ -41,7 +42,7 @@ def transmission(camera):
     vel = 0
 
     # Path donde se guardará los frames
-    path =r'C:\Users\Usuario\Desktop\django_projects\jetson-robot-web-controller\frames'
+    path =r'/home/nikobot/projects/django/frames'
 
       
     while True:
@@ -64,8 +65,8 @@ def transmission(camera):
                     print("Frame: ", name, ", Posición: ", pos, "Velocidad: ", vel)
 
                     # -------------------------------------------------------------------------------------------------------------------
-                    # Archivo CSV donde se guardarán las posiciones y velocidades
-                    archivo_posiciones_csv = r'C:\Users\Usuario\Desktop\django_projects\jetson-robot-web-controller\frames\parametros.csv'
+                    # Archivo CSV donde se guardarán la<D-d>s posiciones y velocidades
+                    archivo_posiciones_csv = r'/home/nikobot/projects/django/frames/parametros.csv'
                     with open(archivo_posiciones_csv, 'a', newline='') as archivo_csv:
                         # Crear un escritor CSV
                         escritor_csv = csv.writer(archivo_csv)
@@ -89,7 +90,9 @@ def webcam_feed(request):
     global transmission_active
     global reinicio
     transmission_active = request.GET.get('transmission_active', False)
-    img_path = r"C:\Users\Usuario\Desktop\django_projects\jetson-robot-web-controller\jetson-robot-web-controller\jetsonrobotwebcontroller\static\img\transmision_desactivada.jpg"
+                            #img_path = r"/home/nikobot/projects/django/jetson-robot-web-controller/jetsonrobotwebcontroller/static/img/transmision_desactivada.jpg"
+    img_path = os.path.join(os.path.dirname(__file__), 'static/img/transmision_desactivada.jpg')
+ 
     assert os.path.isfile(img_path)
 
     print("Estado de variable transmission_active: ", transmission_active, " - ", type(transmission_active))
@@ -104,9 +107,9 @@ def webcam_feed(request):
 
     print("¿Transmisión activada?:", transmission_active, " - ", type(transmission_active))
 
-    if transmission_active:
-        print("Cargando webcam feed (StreamingHttpResponse)")
-        return StreamingHttpResponse(transmission(webcam()), content_type='multipart/x-mixed-replace; boundary=frame')
+    #if transmission_active:
+    print("Cargando webcam feed (StreamingHttpResponse)")
+    return StreamingHttpResponse(transmission(webcam()), content_type='multipart/x-mixed-replace; boundary=frame')
     # else:
     #     return HttpResponse(img_path, content_type="image/jpeg")
 
@@ -114,7 +117,8 @@ def webcam_feed(request):
 #     return StreamingHttpResponse(transmission_inicial(webcam()), content_type='multipart/x-mixed-replace; boundary=frame')
 
 def webcam_deactivated(request):
-    img_path = r"C:\Users\Usuario\Desktop\django_projects\jetson-robot-web-controller\jetson-robot-web-controller\jetsonrobotwebcontroller\static\img\transmision_desactivada.jpg"
+                            #img_path = r"/home/nikobot/jetson-robot-web-controller/jetsonrobotwebcontroller/static/img/transmision_desactivada.jpg"
+    img_path = os.path.join(os.path.dirname(__file__), "static/img/transmision_desactivada.jpg")
 
     # Si la transmisión está desactivada, mostrar una imagen predeterminada
     print("Mostrar gatito transmision")
